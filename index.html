@@ -21,3 +21,18 @@ async function init() {
 
   list();
 }
+
+async function list() {
+  let tx = db.transaction('books');
+  let bookStore = tx.objectStore('books');
+
+  let books = await bookStore.getAll();
+
+  if (books.length) {
+    listElem.innerHTML = books.map(book => `<li>
+        name: ${book.name}, price: ${book.price}
+      </li>`).join('');
+  } else {
+    listElem.innerHTML = '<li>No books yet. Please add books.</li>'
+  }
+}  
