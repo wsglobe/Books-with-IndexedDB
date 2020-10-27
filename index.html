@@ -42,3 +42,28 @@ async function clearBooks() {
   await tx.objectStore('books').clear();
   await list();
 }
+
+async function addBook() {
+  let name = prompt("Book name?");
+  let price = +prompt("Book price?");
+
+  let tx = db.transaction('books', 'readwrite');
+
+  try {
+    await tx.objectStore('books').add({name, price});
+    await list();
+  } catch(err) {
+    if (err.name == 'ConstraintError') {
+      alert("Such book exists already");
+      await addBook();
+    } else {
+      throw err;
+    }
+  }
+}
+
+window.addEventListener('unhandledrejection', event => {
+  alert("Error: " + event.reason.message);
+});
+
+</script>
