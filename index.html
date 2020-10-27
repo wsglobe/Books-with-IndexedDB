@@ -13,3 +13,11 @@
 let db;
 
 init();
+
+async function init() {
+  db = await idb.openDb('booksDb', 1, db => {
+    db.createObjectStore('books', {keyPath: 'name'});
+  });
+
+  list();
+}
