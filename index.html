@@ -36,3 +36,9 @@ async function list() {
     listElem.innerHTML = '<li>No books yet. Please add books.</li>'
   }
 }  
+
+async function clearBooks() {
+  let tx = db.transaction('books', 'readwrite');
+  await tx.objectStore('books').clear();
+  await list();
+}
